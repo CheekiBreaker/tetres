@@ -12,6 +12,7 @@ for (let row = -2; row < 20; row++) {
     playfield[row][col] = 0;
   }
 }
+
 const tetrominos = {
   I: [
     [0, 0, 0, 0],
@@ -167,11 +168,13 @@ function showGameOver() {
 function loop() {
   rAF = requestAnimationFrame(loop);
   context.clearRect(0, 0, canvas.width, canvas.height);
+
   for (let row = 0; row < 20; row++) {
     for (let col = 0; col < 10; col++) {
       if (playfield[row][col]) {
         const name = playfield[row][col];
         context.fillStyle = colors[name];
+
         context.fillRect(col * grid, row * grid, grid - 1, grid - 1);
       }
     }
@@ -181,12 +184,15 @@ function loop() {
     if (++count > 35) {
       tetromino.row++;
       count = 0;
+
       if (!isValidMove(tetromino.matrix, tetromino.row, tetromino.col)) {
         tetromino.row--;
         placeTetromino();
       }
     }
+
     context.fillStyle = colors[tetromino.name];
+
     for (let row = 0; row < tetromino.matrix.length; row++) {
       for (let col = 0; col < tetromino.matrix[row].length; col++) {
         if (tetromino.matrix[row][col]) {
@@ -204,6 +210,7 @@ function loop() {
 
 document.addEventListener("keydown", function (e) {
   if (gameOver) return;
+
   if (e.which === 37 || e.which === 39) {
     const col = e.which === 37;
     tetromino.col - 1;
@@ -231,4 +238,5 @@ document.addEventListener("keydown", function (e) {
     tetromino.row = row;
   }
 });
+
 rAF = requestAnimationFrame(loop);
